@@ -8,6 +8,8 @@ import path from 'node:path'
 import cookieParser from 'cookie-parser'
 //IMPORTA EL MODULO PARA MANEJAR LOGS
 import logger from 'morgan'
+import createDebug from "debug"
+const debug = createDebug('dwssr-2026:server:')
 //import crear dirname
 import {fileURLToPath} from 'node:url'
 import {dirname} from 'node:path'
@@ -28,17 +30,20 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+//CRAENDO LA APLICACION EXPRESS
+debug("🔨 creando backend")
 //CONFIGURACION DE MIDDLEWARES
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 //CONFIGURACION DE ARCHIVOS ESTATICOS (PUBLIC)
+debug("🔨 creando servidor de archivos estaticos")
 app.use(express.static(path.join(__dirname,'..','public')));
 //CONFIGURACION DE RUTAS(REGISTRAMOS)
+debug("🔨 registrando rutas")
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
 // CAPTURA DE ERRORES 404 Y ENVIO AL MANEJADOR DE ERRORES
 app.use(function(req, res, next) {
   next(createError(404));
