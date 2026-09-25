@@ -8,11 +8,19 @@ import path from 'node:path'
 import cookieParser from 'cookie-parser'
 //IMPORTA EL MODULO PARA MANEJAR LOGS
 import logger from 'morgan'
-
+//import crear dirname
+import {fileURLToPath} from 'node:url'
+import {dirname} from 'node:path'
+//creando las variables
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 //IMPORTA EL MODULO PARA MANEJAR RUTAS DE LA APLICACION
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//var indexRouter = require('./routes/index');
+import indexRouter from'./routes/index.js'
+//var usersRouter = require('./routes/users');
+import usersRouter from'./routes/users.js'
+
 //CREA UNA INSTANCIA DE EXPRESS (LA APLICACION) 
 var app = express();
 
@@ -47,4 +55,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+//module.exports = app;
+export default app;

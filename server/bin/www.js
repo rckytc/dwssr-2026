@@ -5,7 +5,7 @@
  */
 
 
-import app from '../app'
+import app from '../app.js'
 //importando debug
 import createDebug from "debug"
 import { constants } from 'node:fs/promises';
