@@ -18,13 +18,13 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 //IMPORTA EL MODULO PARA MANEJAR RUTAS DE LA APLICACION
 
-//var indexRouter = require('./routes/index');
-import indexRouter from'./routes/index.js'
-//var usersRouter = require('./routes/users');
-import usersRouter from'./routes/users.js'
+//IMPORTA LAS RUTAS DE LA APLICACION
+import indexRouter from '#routes/index.js'
+//IMPORTA LAS RUTAS DE LA APLICACION
+import usersRouter from '#routes/users.js'
 
 //CREA UNA INSTANCIA DE EXPRESS (LA APLICACION) 
-var app = express();
+const app = express();
 
 //CONFIGURACION DE MOTOR DE VISTAS (HANDLEBARS)
 app.set('views', path.join(__dirname, 'views'));
