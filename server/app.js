@@ -17,18 +17,22 @@ import {dirname} from 'node:path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 //IMPORTA EL MODULO PARA MANEJAR RUTAS DE LA APLICACION
-
+//importando el hbs
+import hbs from 'hbs'
 //IMPORTA LAS RUTAS DE LA APLICACION
 import indexRouter from '#routes/index.js'
 //IMPORTA LAS RUTAS DE LA APLICACION
 import usersRouter from '#routes/users.js'
-
+//importando el registrador helper
+import {registerViteHelpers} from './lib/vite.js'
 //CREA UNA INSTANCIA DE EXPRESS (LA APLICACION) 
 const app = express();
 
 //CONFIGURACION DE MOTOR DE VISTAS (HANDLEBARS)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+//regitro helper
+registerViteHelpers(hbs)
 
 //CRAENDO LA APLICACION EXPRESS
 debug("🔨 creando backend")
@@ -37,13 +41,21 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//archivos estaticos para produccion 
+if(process.env.NODE_ENV == 'production'){
+  app.use(express.static(path.join(__dirname, '..', 'dist')));
+} // <--- ¡AQUÍ FALTABA CERRAR LA LLAVE DEL IF!
+
 //CONFIGURACION DE ARCHIVOS ESTATICOS (PUBLIC)
 debug("🔨 creando servidor de archivos estaticos")
 app.use(express.static(path.join(__dirname,'..','public')));
+
 //CONFIGURACION DE RUTAS(REGISTRAMOS)
 debug("🔨 registrando rutas")
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
 // CAPTURA DE ERRORES 404 Y ENVIO AL MANEJADOR DE ERRORES
 app.use(function(req, res, next) {
   next(createError(404));
@@ -60,5 +72,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//module.exports = app;
 export default app;
