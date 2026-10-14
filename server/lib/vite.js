@@ -2,7 +2,6 @@
 import fs from 'node:fs'
 // biblioteca de rutas
 import path, { dirname } from 'node:path'
-import { isAbsolute } from 'node:path/posix'
 // import crear dirname
 import { fileURLToPath } from 'node:url'
 

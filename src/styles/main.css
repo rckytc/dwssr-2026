@@ -1,8 +1,12 @@
-body{
-    padding: 50px;
-    font: italic 22px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+@import "tailwindcss";
 
-h1{
-    color: #39FF14;
+@source "../../server/views/**/*.hbs";
+
+/*body{
+    padding: 50px;
+    font:30px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
+h1{
+    color:#b40303
+}
+*/
