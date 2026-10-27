@@ -15,7 +15,9 @@
     "lint:all": "npm run lint:back && npm run lint:front",
     "lint:back": "eslint \"server/**/*.js\"",
     "lint:front": "eslint \"src/**/*.js\"",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"server/**/*.js\" \"src/**/*.js\" \"public/**/*.js\" \"vite.config.js\"",
+    "format:check": "prettier --check \"server/**/*.js\" \"src/**/*.js\" \"public/**/*.js\" \"vite.config.js\""
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -26,12 +28,19 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/compat": "^2.1.1",
+    "@eslint/eslintrc": "^3.3.7",
+    "@eslint/js": "^9.39.5",
+    "@tailwindcss/vite": "^4.3.3",
     "concurrently": "^10.0.5",
-    "eslint": "^10.12.0",
+    "eslint": "^9.39.5",
+    "eslint-config-airbnb-extended": "^3.3.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "globals": "^17.13.0",
     "nodemon": "^3.1.14",
+    "prettier": "^3.9.10",
+    "tailwindcss": "^4.3.3",
     "vite": "^8.3.2"
   },
   "imports": {

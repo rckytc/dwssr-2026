@@ -1,16 +1,20 @@
+
 import express from 'express';
+
 const router = express.Router();
 
 let counter = 0;
-const numbers = []
+const numbers = [];
+
 /* GET home page. */
-router.get('/', function(req, res, _next) {
-  counter++;
-  res.render('index', { title: 'RICARDO',
+router.get('/', (req, res, _next) => {
+  counter += 1;
+
+  res.render('index', {
+    title: 'RICARDO',
     counter,
-    numbers
+    numbers,
   });
 });
 
-//module.exports = router;
 export default router;

@@ -61,12 +61,8 @@ export function viteAssets(){
 /**
  * funcion registradora del helper de handlebars
 */
-export function registerViteHelpers(hbs){
-    hbs.registerHelper('viteAssets', () => {
-        // sanitizando la salida del helper 
-        return new hbs.SafeString(viteAssets())
-    })
+export function registerViteHelpers(hbs) {
+  hbs.registerHelper('viteAssets', () => new hbs.SafeString(viteAssets()));
 }
-
 // Exportación alterna por compatibilidad
 export const registerViteHelper = registerViteHelpers;
