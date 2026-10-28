@@ -1,3 +1,4 @@
+
 import { defineConfig, globalIgnores } from 'eslint/config';
 import js from '@eslint/js';
 import globals from 'globals';
@@ -6,7 +7,7 @@ import prettier from 'eslint-config-prettier/flat';
 
 const { base } = rules;
 
-// Reglas de Airbnb (base) sin las de formato: de eso se encarga Prettier
+// Reglas de Airbnb sin las reglas de formato que gestiona Prettier
 const airbnbBase = [
   base.bestPractices,
   base.errors,
@@ -15,9 +16,13 @@ const airbnbBase = [
   base.strict,
   base.style,
   base.variables,
-].map((ruleSet) => ({ name: ruleSet.name, rules: ruleSet.rules }));
+].map((ruleSet) => ({
+  name: ruleSet.name,
+  rules: ruleSet.rules,
+}));
 
 export default defineConfig([
+  // Archivos que ESLint debe ignorar
   globalIgnores([
     'dist/**',
     'node_modules/**',
@@ -26,6 +31,8 @@ export default defineConfig([
     '.github/**',
     '*.config.js',
   ]),
+
+  // Configuración general de JavaScript
   {
     files: ['**/*.{js,mjs}'],
     plugins: { js, ...plugins.importX.plugins },
@@ -35,31 +42,65 @@ export default defineConfig([
       sourceType: 'module',
     },
     settings: {
-      'import-x/resolver-next': [plugins.importX.plugins['import-x'].createNodeResolver()],
+      'import-x/resolver-next': [
+        plugins.importX.plugins['import-x'].createNodeResolver(),
+      ],
     },
   },
+
   ...airbnbBase,
-  // Back-end
+
+  // Backend: Node.js y mensajes de consola permitidos
   {
     files: ['server/**/*.{js,mjs}'],
-    languageOptions: { globals: { ...globals.node } },
-  },
-  // Front-end
-  {
-    files: ['src/**/*.{js,mjs}', 'public/**/*.{js,mjs}'],
-    languageOptions: { globals: { ...globals.browser } },
-  },
-  {
+    languageOptions: {
+      globals: { ...globals.node },
+    },
     rules: {
-      'no-underscore-dangle': ['error', { allow: ['__filename', '__dirname'] }],
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      // Los alias "#server/*" y devDependencies de configuración
-      // ESM en Node exige la extensión .js en imports relativos
-      'import-x/extensions': ['error', 'ignorePackages'],
-      'import-x/no-unresolved': ['error', { ignore: ['^#'] }],
-      'import-x/no-extraneous-dependencies': ['error', { devDependencies: [] }],
+      'no-console': [
+        'warn',
+        { allow: ['warn', 'error', 'info', 'log', 'debug'] },
+      ],
     },
   },
-  // Siempre al final: desactiva reglas que chocan con Prettier
+
+  // Frontend: navegador
+  {
+    files: ['src/**/*.{js,mjs}', 'public/**/*.{js,mjs}'],
+    languageOptions: {
+      globals: { ...globals.browser },
+    },
+  },
+
+  // Reglas generales del proyecto
+  {
+    rules: {
+      'no-underscore-dangle': [
+        'error',
+        { allow: ['__filename', '__dirname'] },
+      ],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'import-x/no-rename-default': 'off',
+      'import-x/extensions': ['error', 'ignorePackages'],
+      'import-x/no-unresolved': ['error', { ignore: ['^#'] }],
+      'import-x/no-extraneous-dependencies': [
+        'error',
+        { devDependencies: [] },
+      ],
+    },
+  },
+
+  // Frontend: permite determinados mensajes de consola
+  {
+    files: ['src/**/*.{js,mjs}'],
+    rules: {
+      'no-console': [
+        'warn',
+        { allow: ['warn', 'error', 'info'] },
+      ],
+    },
+  },
+
+  // Prettier al final para evitar conflictos de formato
   prettier,
 ]);
