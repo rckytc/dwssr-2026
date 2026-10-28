@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 // IMPORTA EL MODULO PARA MANEJAR COOKIES
 import cookieParser from 'cookie-parser';
 // IMPORTA EL MODULO PARA MANEJAR LOGS
-import logger from 'morgan';
+import morgan from 'morgan';
 import createDebug from 'debug';
 // IMPORTA HANDLEBARS
 import hbs from 'hbs';
@@ -38,7 +38,7 @@ registerViteHelpers(hbs);
 debug('🔨 creando backend');
 
 // CONFIGURACION DE MIDDLEWARES
-app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
